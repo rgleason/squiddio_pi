@@ -4,7 +4,7 @@
 # Upload the .tar.gz and .xml artifacts to cloudsmith
 #
 
-REPO='mauro-calvi/squiddio-pi'
+REPO='rgleason/squiddio-pi'
 
 if [ -z "$CLOUDSMITH_API_KEY" ]; then
     echo 'Cannot deploy to cloudsmith, missing $CLOUDSMITH_API_KEY'

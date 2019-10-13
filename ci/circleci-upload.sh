@@ -5,7 +5,7 @@
 #
 
 
-REPO='mauro-calvi/squiddio-pi'
+REPO='rgleason/squiddio-pi'
 
 if [ -z "$CIRCLECI" ]; then
     exit 0;
