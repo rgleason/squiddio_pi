@@ -58,7 +58,7 @@ deploy:
 
   provider: GitHub
   auth_token: 
-    secure: 4l9NTrQyvKVqzBPAT3ejCSZhllJXWaI/QcFWTBHueU3YEqLRAZM3+LinoOBnMcf2  #Mauro's encryption
+    secure: VYYxNSdoxzJai29K/HmfO+VHsJ2QDvkYk2oa2pb4WrIRad+8/HANZ0lCn3GbgfHd  #Rick's encryption
   artifact: installer,portable
   draft: true
   prerelease: true
