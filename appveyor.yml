@@ -58,7 +58,7 @@ deploy:
 
   provider: GitHub
   auth_token: 
-    secure: $(GITHUB_KEY_TRAVIS_ENCRYPTED_FOR_SQUIDDIO)
+    secure: $(GITHUB_KEY_APPVEYOR_ENCRYPTED_FOR_SQUIDDIO)
   artifact: installer,portable
   draft: true
   prerelease: true
