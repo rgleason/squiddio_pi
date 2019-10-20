@@ -12,10 +12,10 @@ if [ -z "$CIRCLECI" ]; then
 fi
 
 branch=$(git symbolic-ref --short HEAD)
-if [ "$branch" != 'master' ]; then
-    echo "Not on master branch, skipping deployment."
-    exit 0
-fi
+# if [ "$branch" != 'master' ]; then
+#    echo "Not on master branch, skipping deployment."
+#    exit 0
+# fi
 
 if [ -z "$CLOUDSMITH_API_KEY" ]; then
     echo 'Cannot deploy to cloudsmith, missing $CLOUDSMITH_API_KEY'

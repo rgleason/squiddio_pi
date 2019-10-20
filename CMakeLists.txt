@@ -107,7 +107,7 @@ SET(PKG_API_VERSION "1.16")
 SET(PKG_AUTHOR "Mauro Calvi")
 SET(PKG_NVR ${PACKAGE_NAME}-${PACKAGE_VERSION}.${PKG_RELEASE})
 SET(PKG_BASE_URL
-  "https://dl.cloudsmith.io/public/mauro-calvi/squiddio-pi/raw/files")
+  "https://dl.cloudsmith.io/public/rgleason/squiddio-pi/raw/files")
 
 
 INCLUDE("cmake/PluginSetup.cmake")
