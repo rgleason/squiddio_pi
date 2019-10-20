@@ -57,8 +57,8 @@ artifacts:
 deploy:
 
   provider: GitHub
-  auth_token: 
-    secure: $(GITHUB_KEY_APPVEYOR_ENCRYPTED_FOR_SQUIDDIO)
+  auth_token: $(appveyor_auth_token_squiddio)
+#    secure: "VYYxNSdoxzJai29K/HmfO+VHsJ2QDvkYk2oa2pb4WrIRad+8/HANZ0lCn3GbgfHd" #Rick's encryption
   artifact: installer,portable
   draft: true
   prerelease: true
