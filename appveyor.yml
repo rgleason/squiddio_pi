@@ -55,11 +55,15 @@ artifacts:
   name: installer
 # Deploy to GitHub Releases
 deploy:
+#Optional. The name of release. If not specified tag name is used as release name.
+#  release: squiddio-v$(appveyor_build_version) 
+  description: 'Test release to github'
   provider: GitHub
-  auth_token: $git-ptoken-squiddio-into-appveyor
+  auth_token:
+    secure: "T7zazutzaubXINMnORExahZAttXxVu6TAb9SzU8HDX5/Uv7XBRkFK+Dcb/eNms25"  #your encrypted token from github
   artifact: installer,portable
   draft: true
-  prerelease: true
+#  prerelease: true
 #  tag: $(APPVEYOR_REPO_TAG_NAME) # insert version name
   on:
     configuration: Release    # Debug contains non-redist MS DLLs
