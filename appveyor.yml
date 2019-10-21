@@ -57,7 +57,7 @@ artifacts:
 deploy:
   provider: GitHub
   auth_token: $(squiddio-ptoken-into-app-trav)
-    secure: "Q405k7ElLy0Y6Hh4r8K9ReyFaqLb1aq8kxMui9IvffyxuCi8SO5tgkUVCzcfKWK2" #Rick's encryption
+#  secure: "Q405k7ElLy0Y6Hh4r8K9ReyFaqLb1aq8kxMui9IvffyxuCi8SO5tgkUVCzcfKWK2" #Rick's encryption
   artifact: installer,portable
   draft: true
   prerelease: true
