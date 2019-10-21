@@ -46,7 +46,7 @@ addons:
     - g++-6
 deploy:
 - provider: releases
-  github_token: $travis_auth_token_squiddio
+  github_token: $git-ptoken-squiddio-into-travis  # Set in settings page, as a secure variable
   file_glob: true
   file: "$TRAVIS_BUILD_DIR/build/*.{deb,pkg}"
   skip_cleanup: true

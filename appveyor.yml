@@ -56,7 +56,7 @@ artifacts:
 # Deploy to GitHub Releases
 deploy:
   provider: GitHub
-  auth_token: $appveyor_auth_token_squiddio
+  auth_token: $git-ptoken-squiddio-into-appveyor
   artifact: installer,portable
   draft: true
   prerelease: true
