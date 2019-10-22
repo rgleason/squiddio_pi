@@ -7,17 +7,17 @@
 REPO='rgleason/squiddio-pi'
 
 branch=$(git symbolic-ref --short HEAD)
-if [ "$branch" != 'master' ]; then
-    echo "Not on master branch, skipping deployment."
-    exit 0
-fi
+# if [ "$branch" != 'master' ]; then
+#    echo "Not on master branch, skipping deployment."
+#    exit 0
+# fi
 
 if [ -z "$CLOUDSMITH_API_KEY" ]; then
     echo 'Cannot deploy to cloudsmith, missing $CLOUDSMITH_API_KEY'
     exit 0
 fi
 
-echo "Using \$CLOUDSMITH_API_KEY: ${CLOUDSMITH_API_KEY:0:4}..."
+# echo "Using \$CLOUDSMITH_API_KEY: ${CLOUDSMITH_API_KEY:0:4}..."
 
 set -xe
 
