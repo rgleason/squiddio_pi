@@ -22,7 +22,7 @@ SET(PARENT "opencpn")
 SET(PACKAGE squiddio)
 SET(VERBOSE_NAME Squiddio)
 SET(CPACK_PACKAGE_CONTACT "Mauro Calvi")
-SET(CLOUDSMITH_USER "rgleason")
+SET(CLOUDSMITH_USER "rick-gleason")
 
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "0")
@@ -107,7 +107,7 @@ SET(PKG_API_VERSION "1.16")
 SET(PKG_AUTHOR "Mauro Calvi")
 SET(PKG_NVR ${PACKAGE_NAME}-${PACKAGE_VERSION}.${PKG_RELEASE})
 SET(PKG_BASE_URL
-  "https://dl.cloudsmith.io/public/mauro-calvi/squiddio-pi/raw/files")
+  "https://dl.cloudsmith.io/public/rick-gleason/squiddio-pi/raw/files")
 
 
 INCLUDE("cmake/PluginSetup.cmake")

@@ -4,8 +4,7 @@
 # Upload the .tar.gz and .xml artifacts to cloudsmith.
 #
 
-
-REPO='rgleason/squiddio-pi'
+REPO='rick-gleason/squiddio-pi'
 
 if [ -z "$CIRCLECI" ]; then
     exit 0;
