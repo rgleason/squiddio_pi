@@ -55,8 +55,8 @@ artifacts:
   name: installer
 # Deploy to GitHub Releases
 deploy:
-#Optional. The name of release. If not specified tag name is used as release name.
-#  release: squiddio-v$(appveyor_build_version) 
+# release: squiddio-v$(appveyor_build_version) 
+# Optional. The name of release. If not specified tag name is used as release name.
   description: 'Test release to github'
   provider: GitHub
   auth_token:
