@@ -46,11 +46,11 @@ addons:
     - g++-6
 deploy:
 - provider: releases
-  api_key: "appveyor_auth_token_squiddio"
-#    secure: "ITY5bfgEHsABqkzibS60y9W3so4eht4ociqAE7H0gnFA/3h3aVXyaZZvUhSQF8XwaWgTDfgxJOvPvOsY+mYNN5GOOSFd0YwRxKA8ys8TPqB2T2MkQ5lt9+5pJ52VkJ8cR1Ro688k5NEZmavke29QHVuzOfaNWPqAx1Xfkp/Vnbw1ApB5mQiNwQKtfkI8dZDtP/IFYHSF8+2gRuCe9i/Ed+yUfpojRSb15X/qs2+l57VOKrR//J21iqZ+hYRQKzfqs6QOyb2B822ABJuI6kESzVWg2vtO1mI4XD3dv6BIaWnzHiwIk8nbI0TAuYTR/Yze4jACqSa6ud9I1KLT3trbw9ZFRODiFniSGIjqEpZG5S1FMK7TLK0+a8Lk5GHqDJn5T+mVxljSPO3rcMtWqa51uar4FFyUVgPL1bBd5FgsRkRNulV5O6I89rDmtgoc0UzUBy7WrO/JrT2AEoe4WiYM7BYxjRHTcW1+dHGr/y1CU3sIvcR/0BdZuTDfET5NV5zl6AabJUcyi5M7p2wmW0In2OAJzCWuRGthTmAx9xeUiXAbNzSCpkozKSZDRJnTLpvyBm4RzsqiWZKoKgFRP2AFpkh6E23e9REdKih5nTkD19aEKj7uXFViEojAQ13RqcchksQyzZ33u0mgJ2i2aX0x8eFG8qbYXMgB6t7pMrmq9tY="
+# github_token: $git-ptoken-squiddio-into-travis  # Set in settings page, as a secure variable
+  api_key:
+    secure: "POphzrmCdwTYoQLpG0/ZAA7a/j56FQEFkihzLlOMNNK0fOosL11fjZeGJviZ4UI0sS3OPvRlIFiPIx6nDpHaNBZEfyOR6cmSv+KCh4nkLu5bhJ84VUuE6YqMA+EdsJWJutbpS7Z/l6/LEtHcnOHhyXVIqRwpTB3Mh5ETuW6EYhjyEWz6mCgSYak6FqbY/X6OuYADaeh+DsAVwmsLCAEwu0vWySFPOfl2qG+NsQBPJtkjhhpfSlGiNlPY+inwwQc9KlBfG0MLYu+yMos/EuZ2CJjDXJyQYAm2lBMcyScJneQnFDhz8OcFTxSXbS0XglPPC12WgRquZD9AVbOtQCsuo38bFZUUV+bcb6QkLCaphtNTAkM5r4Oae4gqk9Sl3cLzYmIW+j8MQ+IDmgvgVEfk1dNqoHMzgtJTImkynRbfWGf0BOy1tNve4EI5VAX8NRWX8O9P3XcS8QrWRL/g8o2MMwhS8fkeBw1UamrREieAktheZ+6h/JsTtXowPNz76Uoicrfl+DnYgYC0XjgfDBjjtVNwvFFeI9ch76T3N23n1gxA9j70lYPLjc43I4is2xJruSlduyFwkoN5qofuWwBG+mteH/e7NdkbODN5ESFu1iyC1eafnGlHAeFuDIadlRxOXr0e9p5Cvn1oD68GcG9TMAXPAOUXaYgtPl5Wk+BVX4I="
   file_glob: true
   file: "$TRAVIS_BUILD_DIR/build/*.{deb,pkg}"
-
   skip_cleanup: true
   on:
     repo: rgleason/squiddio_pi
