@@ -14,8 +14,8 @@
 
 set -xe
 
-STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'mauro-calvi/squiddio-stable'}
-UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'mauro-calvi/squiddio-pi'}
+STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'rick-gleason/squiddio-stable'}
+UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'rick-gleason/squiddio-pi'}
 
 if [ -z "$CIRCLECI" ]; then
     exit 0;

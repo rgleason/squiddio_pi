@@ -4,8 +4,8 @@
 # Upload the .tar.gz and .xml artifacts to cloudsmith
 #
 
-STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'mauro-calvi/squiddio-stable'}
-UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'mauro-calvi/squiddio-pi'}
+STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'rick-gleason/squiddio-stable'}
+UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'rick-gleason/squiddio-pi'}
 
 if [ "$(git rev-parse master)" != "$(git rev-parse HEAD)" ]; then
     echo "Not on master branch, skipping deployment."
