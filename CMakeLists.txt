@@ -546,8 +546,7 @@ ADD_DEFINITIONS(-DTIXML_USE_STL)
 #=======================================
 #  Adjust Library for the plugin
 #=======================================
-ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_SQUIDDIO} ${SRC_NMEA} ${SRC_LTINYXML} ${SRC_JSON})
-
+ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_SQUIDDIO} ${SRC_NMEA0183} ${SRC_JSON} ${SRC_LTINYXML})
 
 IF (QT_ANDROID )
     TARGET_LINK_LIBRARIES( ${PACKAGE_NAME} ${OCPN_Core_LIBRARIES} )
@@ -676,9 +675,9 @@ INSTALL(FILES "buildosx/oeserverd/oeserverd"
        PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ WORLD_EXECUTE
        DESTINATION "OpenCPN.app/Contents/PlugIns/")
 
-INSTALL(FILES "src/rrc_eula_ChartSetsForOpenCPN.txt"
-      PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-      DESTINATION "OpenCPN.app/Contents/SharedSupport/plugins/${PACKAGE_NAME}" )
+#INSTALL(FILES "src/rrc_eula_ChartSetsForOpenCPN.txt"
+#      PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
+#      DESTINATION "OpenCPN.app/Contents/SharedSupport/plugins/${PACKAGE_NAME}" )
 
   # We also need to copy the helper utility and required dylibs to the binary build directory so that the PACKAGES scripts will find it.
 configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/oeserverd

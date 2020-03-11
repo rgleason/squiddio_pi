@@ -13,9 +13,7 @@ matrix:
     - OCPN_UNSTABLE_REPO=rick-gleason/opencpn-plugins-beta
     - OCPN_PKG_REPO=rick-gleason/opencpn-plugins-pkg
     - DOCKER_IMAGE=raspbian/stretch
-#/~mauro-calvi/repos/squiddio-stable
-#/~mauro-calvi/repos/squiddio-pi
-#/~mauro-calvi/repos/squiddio-manual
+
     services:
     - docker
     script:
@@ -30,9 +28,7 @@ matrix:
     - OCPN_UNSTABLE_REPO=rick-gleason/opencpn-plugins-beta
     - OCPN_PKG_REPO=rick-gleason/opencpn-plugins-pkg
     - DOCKER_IMAGE=raspbian/stretch
-#/~mauro-calvi/repos/squiddio-stable
-#/~mauro-calvi/repos/squiddio-pi
-#/~mauro-calvi/repos/squiddio-manual
+
     - DOCKER_IMAGE=opencpn/raspbian-buster:plugin_build_tooling
     services:
     - docker
