@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 #
 # Build the Debian artifacts
 #
