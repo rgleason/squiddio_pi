@@ -1,4 +1,4 @@
-id: org.opencpn.OpenCPN.Plugin.oesenc
+id: org.opencpn.OpenCPN.Plugin.squiddio
 runtime: org.opencpn.OpenCPN
 runtime-version: master
 sdk: org.freedesktop.Sdk//18.08
@@ -6,21 +6,21 @@ build-extension: true
 separate-locales: false
 appstream-compose: false
 modules:
-    - name: oesenc
+    - name: squiddio
       no-autogen: true
       cmake: true
       build-options:
           cflags: -fPIC
           cxxflags: -fPIC -DFLATPAK
       config-opts:
-          - -DPREFIX:PATH=/app/extensions/oesenc
+          - -DPREFIX:PATH=/app/extensions/squiddio
       post-install:
           - >
-            mv /app/extensions/oesenc/bin/oeserverd
-            /app/extensions/oesenc/bin/oeserverd.prog
-          - install -t /app/extensions/oesenc/bin/ -m 755 oeserverd
+            mv /app/extensions/squiddio/bin/oeserverd
+            /app/extensions/squiddio/bin/oeserverd.prog
+          - install -t /app/extensions/squiddio/bin/ -m 755 oeserverd
           - >
-            install -t /app/extensions/oesenc/lib -m 755
+            install -t /app/extensions/squiddio/lib -m 755
             buildlinux64/oeserverd/libsgllnx64-2.29.02.so
             libusb-0.1.so.4
       sources:
