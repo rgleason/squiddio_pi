@@ -669,28 +669,27 @@ IF(WIN32)
 
 ENDIF(WIN32)
 
-IF(APPLE)
-
-INSTALL(FILES "buildosx/oeserverd/oeserverd"
-       PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ WORLD_EXECUTE
-       DESTINATION "OpenCPN.app/Contents/PlugIns/")
-
+#IF(APPLE)
+#
+#INSTALL(FILES "buildosx/oeserverd/oeserverd"
+#       PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ WORLD_EXECUTE
+#       DESTINATION "OpenCPN.app/Contents/PlugIns/")
+#
 #INSTALL(FILES "src/rrc_eula_ChartSetsForOpenCPN.txt"
 #      PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 #      DESTINATION "OpenCPN.app/Contents/SharedSupport/plugins/${PACKAGE_NAME}" )
-
-  # We also need to copy the helper utility and required dylibs to the binary build directory so that the PACKAGES scripts will find it.
-configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/oeserverd
-            ${CMAKE_CURRENT_BINARY_DIR}/oeserverd COPYONLY)
-
-configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/libsglmac-2.29.0.0.dylib.x86_64
-            ${CMAKE_CURRENT_BINARY_DIR}/libsglmac-2.29.0.0.dylib.x86_64 COPYONLY)
-
-#configure_file(${PROJECT_SOURCE_DIR}/src/rrc_eula_ChartSetsForOpenCPN.txt
-#            ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-            
-
-ENDIF(APPLE)
+#
+#  # We also need to copy the helper utility and required dylibs to the binary build directory so that the PACKAGES scripts will find it.
+#configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/oeserverd
+#            ${CMAKE_CURRENT_BINARY_DIR}/oeserverd COPYONLY)
+#
+#configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/libsglmac-2.29.0.0.dylib.x86_64
+#            ${CMAKE_CURRENT_BINARY_DIR}/libsglmac-2.29.0.0.dylib.x86_64 COPYONLY)
+#
+##configure_file(${PROJECT_SOURCE_DIR}/src/rrc_eula_ChartSetsForOpenCPN.txt
+##            ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+#
+#ENDIF(APPLE)
 
 
 IF(NOT WIN32)
