@@ -104,32 +104,48 @@ workflows:
       - build-xenial:
           filters:
             branches:
-              only: ci, master
+              only: master
       - build-bionic-gtk3:
           filters:
             branches:
-              only: ci, master
+              only: 
+                 - ci
+                 - master
+#                - /feature-.*/
+# All branches   - /.*/
       - build-bionic:
           filters:
             branches:
-              only: ci, master
+              only:
+                 - ci
+                 - master
       - build-buster:
           filters:
             branches:
-              only: ci, master
+              only:
+                 - ci
+                 - master
       - build-flatpak:
           filters:
             branches:
-              only: ci, master
+              only:
+                 - ci
+                 - master
       - build-fedora:
           filters:
             branches:
-              only: ci, master
+              only:
+                 - ci
+                 - master
       - build-macos:
           filters:
             branches:
-              only: ci, master
+              only:
+                 - ci
+                 - master
       - build-mingw:
           filters:
             branches:
-              only: ci, master
+              only:
+                 - ci
+                 - master
