@@ -686,8 +686,8 @@ configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/oeserverd
 configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/libsglmac-2.29.0.0.dylib.x86_64
             ${CMAKE_CURRENT_BINARY_DIR}/libsglmac-2.29.0.0.dylib.x86_64 COPYONLY)
 
-configure_file(${PROJECT_SOURCE_DIR}/src/rrc_eula_ChartSetsForOpenCPN.txt
-            ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+#configure_file(${PROJECT_SOURCE_DIR}/src/rrc_eula_ChartSetsForOpenCPN.txt
+#            ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
             
 
 ENDIF(APPLE)
