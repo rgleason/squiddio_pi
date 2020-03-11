@@ -9,8 +9,8 @@
 #PKG_REPO=${CLOUDSMITH_PKG_REPO:-'mauro-calvi/squiddio-manual'}
 
 STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'rick-gleason/opencpn-plugins-prod'}
-UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'rick-gleason/opencpn-plugins-beta"}
-PKG_REPO=${CLOUDSMITH_PKG_REPO:-'rick-gleason/opencpn-plugins-pkg"}
+UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'rick-gleason/opencpn-plugins-beta'}
+PKG_REPO=${CLOUDSMITH_PKG_REPO:-'rick-gleason/opencpn-plugins-pkg'}
 
 if [ -z "$CLOUDSMITH_API_KEY" ]; then
     echo 'Cannot deploy to cloudsmith, missing $CLOUDSMITH_API_KEY'
