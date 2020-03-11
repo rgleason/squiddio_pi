@@ -73,18 +73,20 @@ SET(PKG_NVR ${PACKAGE_NAME}-${PACKAGE_VERSION}-${PKG_RELEASE})
 # The @keyword@ references are patched to actual values by upload script.
 SET(TARBALL_URL "https://dl.cloudsmith.io/public/@pkg_repo@/raw")
 SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
-# DEPLOY to Cloudsmith Repository URL's,  Example:
+#
+# DEPLOY to Cloudsmith Repository URL's
+# SET YOUR STABLE_REPO, UNSTABLE_REPO and  PKG_REPO in
+#     ci/appveyor.upload.sh
+#     ci/circileci.upload.sh
+#    .travis.yml  under the env variable (twice)
+#
+#Example:
 #Stable plugins artifacts repository url
 #     set(STABLE_REPO "mauro-calvi/squiddio-stable")
 # Scratch builds repository url
 #     set(UNSTABLE_REPO "mauro-calvi/squiddio-pi")
 # Stable manual installation packages repository url
 #     set(STABLE_PKG_REPO "mauro-calvi/manual")
-#
-# SET YOUR STABLE_REPO, UNSTABLE_REPO and  PKG_REPO in
-#     ci/appveyor.upload.sh
-#     ci/circileci.upload.sh
-#    .travis.yml  under the env variable (twice)
 #
 #=============================================================
 
@@ -542,11 +544,10 @@ ADD_DEFINITIONS(-DTIXML_USE_STL)
 
 
 #=======================================
-#  Adjust list for the plugin
+#  Adjust Library for the plugin
 #=======================================
-ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_SQUIDDIO} ${SRC_NMEA} ${SRC_JSON})
+ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_SQUIDDIO} ${SRC_NMEA} ${SRC_LTINYXML} ${SRC_JSON})
 
-#  ${SRC_LTINYXML}
 
 IF (QT_ANDROID )
     TARGET_LINK_LIBRARIES( ${PACKAGE_NAME} ${OCPN_Core_LIBRARIES} )
