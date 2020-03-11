@@ -1,20 +1,34 @@
-squiddio plugin flatpak README
-------------------------------
+Oesenc flatpak README
+---------------------
 
-This is a simple packaging to use the squiddio plugin when using the opencpn's
-flatpak package. To build and install:
+This is the flatpak packaging of the oesenc plugin, to be managed
+by opencpn's new plugin installer.
+
+
+Testing
+-------
+  - The plugin requires extended permissions. Do (initial setup):
+
+      $ flatpak override --user --allow=devel
 
   - Install flatpak and flatpak-builder as described in https://flatpak.org/
-  - Install the opencpn flatpak package. Using the provisionary repo at
-    fedorapeople.org do:
+  - Enable the flathub repo and install platform packages:
+     
+      $  flatpak --user remote-add --if-not-exists \
+            flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      $ flatpak --user install org.freedesktop.Platform//18.08
+      $ flatpak --user install org.freedesktop.Sdk//18.08
+      $ flatpak --user install org.flatpak.Builder
 
-      $ flatpak install --user \
-          https://opencpn.duckdns.org/opencpn/opencpn.flatpakref
+  - Install opencpn from the beta testing repo:
 
-  - The plugin can now be built and installed using
+      $ flatpak --user remote-add --no-gpg-verify plug-mgr \
+           http://opencpn.duckdns.org/opencpn-beta/website/repo
+      $ flatpak --user install plug-mgr org.opencpn.OpenCPN
 
-      $ make
-      $ make install
+  - Build plugin tarball and metadata from the ci branch:
 
-The actual version built depends on the *tag:* stanza in the yaml file;
-update to other versions as preferred.
+      $ cd build
+      $ cmake -DOCPN_FLATPAK=ON ..
+      $ make flatpak-build
+      $ make package

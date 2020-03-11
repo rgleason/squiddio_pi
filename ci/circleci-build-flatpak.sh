@@ -2,36 +2,37 @@
 
 #
 # Build the flatpak artifacts. Uses docker to run Fedora on
-# in full-fledged VM; the actual build is done in the Fedora
+# in fuill-fledged VM; the actual build is done in the Fedora
 # container. 
 #
 # flatpak-builder can be run in a docker image. However, this
 # must then be run in privileged mode, which means it we need 
-# a full VM to run it.
+# a full-fledged VM to run it.
 #
 
 # bailout on errors and echo commands.
 set -xe
+##sudo apt-get -qq update
 
 PLUGIN=bsb4
 
 DOCKER_SOCK="unix:///var/run/docker.sock"
-TOPDIR=/root/project
+if [ -n "$TRAVIS" ]; then
+    TOPDIR=/opencpn-ci
+fi
 
-# Install cloudsmith-cli, used in upload.
-sudo apt-get update
-sudo apt-get install python3-pip python3-setuptools
-sudo python3 -m pip install -q cloudsmith-cli
+if [ -n "$CIRCLECI" ]; then
+   TOPDIR=/root/project
+fi
 
 echo "DOCKER_OPTS=\"-H tcp://127.0.0.1:2375 -H $DOCKER_SOCK -s devicemapper\"" \
     | sudo tee /etc/default/docker > /dev/null
-sudo service docker restart;
-sleep 5;
+sudo service docker restart
+sleep 5
 sudo docker pull fedora:28;
 sleep 2
-
 docker run --privileged -d -ti -e "container=docker"  \
-    -e TOPDIR=$TOPDIR \
+    -e "TOPDIR=$TOPDIR" \
     -v /sys/fs/cgroup:/sys/fs/cgroup \
     -v $(pwd):$TOPDIR:rw \
     fedora:28   /usr/sbin/init
@@ -43,4 +44,3 @@ docker exec -ti $DOCKER_CONTAINER_ID /bin/bash -xec \
 docker ps -a
 docker stop $DOCKER_CONTAINER_ID
 docker rm -v $DOCKER_CONTAINER_ID
-

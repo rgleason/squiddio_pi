@@ -3,12 +3,13 @@
   <name> squiddio </name>
   <version> ${PACKAGE_VERSION} </version>
   <release> ${PKG_RELEASE} </release>
-  <summary> Repository of sailing destination waypoints </summary>
+  <summary> Repository of sailing destination waypoints and Bouy Reports </summary>
 
   <api-version> ${PKG_API_VERSION} </api-version>
   <open-source> no </open-source>
   <author> ${PKG_AUTHOR} </author>
-  <source> https://github.com/opencpn-radar-pi/radar_pi </source>
+  <source> https://github.com/mauroc/squiddio_pi/ </source>
+  <info-url>https://opencpn.org/OpenCPN/plugins/sQuiddio.html </info-url	
 
   <description>
 Squiddio Plugin makes its global user-sourced and user-maintained
@@ -20,5 +21,4 @@ Android comes with sQuiddio built in.
   <target>${PKG_TARGET}</target>
   <target-version>${PKG_TARGET_VERSION}</target-version>
   <tarball-url> ${TARBALL_URL} </tarball-url>
-  <info-url> https://opencpn.org/OpenCPN/plugins/sQuiddio.html </info-url>
 </opencpn-plugin>

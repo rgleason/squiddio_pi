@@ -3,7 +3,6 @@
 #
 # Build the mingw artifacts inside the Fedora container
 #
-
 set -xe
 
 su -c "dnf install -q -y sudo dnf-plugins-core"
@@ -13,6 +12,6 @@ cmake -DCMAKE_TOOLCHAIN_FILE=../mingw/fedora/toolchain.cmake ..
 make -j2
 make package
 
-# Install cloudsmith-cli, used in upload
-sudo dnf install python3-pip python3-setuptools
-sudo python3 -m pip install -q cloudsmith-cli
+if [ -z "$CLOUDSMITH_API_KEY" ]; then
+    exit 0
+fi

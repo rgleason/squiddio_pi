@@ -13,3 +13,5 @@ Release
 core
 .settings/
 src/version.h
+po/*.rule
+
