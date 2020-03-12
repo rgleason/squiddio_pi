@@ -84,9 +84,10 @@ jobs:
        - checkout
        - run: ci/circleci-build-flatpak.sh
        - run: ci/circleci-upload.sh
-   build-fedora:
+#Outdated Fedora dropped
+   build-fedora:  
      docker:
-         - image: fedora:29
+         - image: fedora:31
      environment:
        - OCPN_TARGET:  fedora
      steps:
@@ -96,7 +97,7 @@ jobs:
        - run: ci/circleci-upload.sh
    build-mingw:
      docker:
-         - image: fedora:29
+         - image: fedora:31
      environment:
        - OCPN_TARGET:  mingw
      steps:
