@@ -4,11 +4,10 @@
 # Upload the .tar.gz and .xml artifacts to cloudsmith
 #
 
-#set -xe
+set -xe
 
-set -e
-
-test -z "UPLOAD_DEBUG" || set -x
+#set -e
+#test -z "UPLOAD_DEBUG" || set -x
 
 #STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'mauro-calvi/squiddio-stable'}
 #UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'mauro-calvi/squiddio-pi'}
