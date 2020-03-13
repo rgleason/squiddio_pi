@@ -84,7 +84,7 @@ jobs:
        - checkout
        - run: ci/circleci-build-flatpak.sh
        - run: ci/circleci-upload.sh
-#Outdated Fedora dropped
+#   Outdated Fedora dropped
    build-fedora:  
      docker:
          - image: fedora:29
@@ -178,7 +178,7 @@ workflows:
             branches:
               only:
                  - ci
-##                 - master
+#                 - master
       - build-mingw:
           filters:
             branches:
