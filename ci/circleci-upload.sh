@@ -38,8 +38,8 @@ elif apt-get --version 2>&1 >/dev/null; then
     sudo python3 -m pip install -q cloudsmith-cli
 else
     sudo -H python3 -m ensurepip
-    sudo dnf -y install python3-pip python3-setuptools
-#    sudo -H python3 -m pip install -q setuptools
+#    sudo dnf -y install python3-pip python3-setuptools   #More env fail- flatpak, fedora, macos
+    sudo -H python3 -m pip install -q setuptools
     sudo -H python3 -m pip install -q cloudsmith-cli
 fi
 
