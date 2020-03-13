@@ -84,7 +84,6 @@ jobs:
        - checkout
        - run: ci/circleci-build-flatpak.sh
        - run: ci/circleci-upload.sh
-#   Outdated Fedora dropped
    build-fedora:  
      docker:
          - image: fedora:29
@@ -100,7 +99,6 @@ jobs:
          - image: fedora:29
      environment:
        - OCPN_TARGET:  mingw
-#          - CLOUDSMITH_PKG_EXT: exe  #  From MauroC squiddio
      steps:
        - run: su -c "dnf install -q -y git openssh-clients openssh-server"
        - checkout
@@ -142,46 +140,38 @@ workflows:
             branches:
               only:
                  - ci
-#                 - master
       - build-bionic-gtk3:
           filters:
             branches:
               only: 
                  - ci
-#                 - master
       - build-bionic:
           filters:
             branches:
               only:
                  - ci
-#                 - master
       - build-buster:
           filters:
             branches:
               only:
                  - ci
-#                 - master
       - build-flatpak:
           filters:
             branches:
               only:
                  - ci
-#                 - master
       - build-fedora:
           filters:
             branches:
               only:
                  - ci
-#                 - master
       - build-macos:
           filters:
             branches:
               only:
                  - ci
-#                 - master
       - build-mingw:
           filters:
             branches:
               only:
                  - ci
-#                 - master
