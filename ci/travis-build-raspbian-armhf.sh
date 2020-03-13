@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-
 #
 #
-
 # bailout on errors and echo commands.
 set -xe
 sudo apt-get -qq update
