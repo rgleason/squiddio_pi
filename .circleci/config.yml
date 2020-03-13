@@ -94,25 +94,6 @@ jobs:
        - checkout
        - run: ci/circleci-build-fedora.sh
        - run: ci/circleci-upload.sh
-   build-mingw:
-     docker:
-         - image: fedora:29
-     environment:
-       - OCPN_TARGET:  mingw
-     steps:
-       - run: su -c "dnf install -q -y git openssh-clients openssh-server"
-       - checkout
-       - run: ci/circleci-build-mingw.sh
-       - run: ci/circleci-upload.sh
-   build-macos:
-     macos:
-       xcode: "10.0.0"
-     environment:
-       - OCPN_TARGET:  macos
-     steps:
-       - checkout
-       - run: ci/circleci-build-macos.sh
-       - run: ci/circleci-upload.sh
    build-macos:
      macos:
        xcode: "10.0.0"
@@ -122,6 +103,16 @@ jobs:
      steps:
        - checkout
        - run: ci/circleci-build-macos.sh
+       - run: ci/circleci-upload.sh	  
+   build-mingw:
+     docker:
+         - image: fedora:29
+     environment:
+       - OCPN_TARGET:  mingw
+     steps:
+       - run: su -c "dnf install -q -y git openssh-clients openssh-server"
+       - checkout
+       - run: ci/circleci-build-mingw.sh
        - run: ci/circleci-upload.sh	   
 workflows:
   version: 2
@@ -132,10 +123,12 @@ workflows:
             branches:
               only:
                  - ci
-#                 - master
-#                - /feature-.*/
-# All branches   - /.*/
       - build-xenial:
+          filters:
+            branches:
+              only:
+                 - ci
+      - build-bionic:
           filters:
             branches:
               only:
@@ -144,11 +137,6 @@ workflows:
           filters:
             branches:
               only: 
-                 - ci
-      - build-bionic:
-          filters:
-            branches:
-              only:
                  - ci
       - build-buster:
           filters:
