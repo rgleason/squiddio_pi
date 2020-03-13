@@ -34,8 +34,10 @@ matrix:
     - "./ci/travis-build-raspbian-armhf.sh"
 branches:
   only:
-    - master
     - ci
+#    - master
+
+
 # ========
 #install:
 #
