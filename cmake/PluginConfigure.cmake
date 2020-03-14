@@ -141,7 +141,8 @@ IF (NOT QT_ANDROID )
         set (wxWidgets_CONFIG_OPTIONS --version=${WXWIDGETS_FORCE_VERSION})
     endif()
     FIND_PACKAGE(wxWidgets REQUIRED)
-    INCLUDE(${wxWidgets_USE_FILE})
+    find_package(wxWidgets COMPONENTS ${wxWidgets_USE_LIBS})
+#    INCLUDE(${wxWidgets_USE_FILE})
 ENDIF (NOT QT_ANDROID )
 
 # On Android, PlugIns need a specific linkage set....
