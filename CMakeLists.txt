@@ -54,15 +54,15 @@ set(OpenGL_GL_PREFERENCE "LEGACY")
 PROJECT(squiddio_pi)
 
 SET(PACKAGE_NAME squiddio_pi)
-SET(VERBOSE_NAME Squiddio)   #Commonname
+SET(VERBOSE_NAME squiddio)  
 SET(PLUGIN_SOURCE_DIR .)
 MESSAGE (STATUS "*** Building ${PACKAGE_NAME} ***")
 
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "2")
-SET(VERSION_PATCH "0")
-SET(VERSION_TWEAK "0")
-SET(VERSION_DATE "01/03/2020")
+SET(VERSION_PATCH "1")
+SET(VERSION_TWEAK "1")
+SET(VERSION_DATE "03/14/2020")
 SET(PACKAGE_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" )
 
 SET(PKG_RELEASE "1")
@@ -73,8 +73,8 @@ SET(PKG_NVR ${PACKAGE_NAME}-${PACKAGE_VERSION}-${PKG_RELEASE})
 # The @keyword@ references are patched to actual values by upload script.
 SET(TARBALL_URL "https://dl.cloudsmith.io/public/@pkg_repo@/raw")
 SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
-#
-# DEPLOY to Cloudsmith Repository URL's
+# Don't set it here
+# TO DEPLOY to Cloudsmith Repository URL's
 # SET YOUR STABLE_REPO, UNSTABLE_REPO and  PKG_REPO in
 #     ci/appveyor.upload.sh
 #     ci/circileci.upload.sh
@@ -96,10 +96,11 @@ SET(OCPN_USE_API_16 ON)
 SET(OCPN_MIN_VERSION "ov50")
 #OPTION(OCPN_USE_API_16 "Use plugin api 16 (default: api 13)." OFF)
 OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
-#=================================
-# Enter plugin Name
-#==================================
-set(PLUGIN_NAME squiddio-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
+
+#======================================
+# Enter verbose_name into PLUGIN_NAME  
+#======================================
+set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 
 IF( NOT CMAKE_BUILD_TYPE )
   SET( CMAKE_BUILD_TYPE Release CACHE STRING
@@ -246,23 +247,26 @@ if (OCPN_FLATPAK)
     if (NOT TAR)
         message(FATAL_ERROR "tar not found, required for OCPN_FLATPAK")
     endif ()
-#======================
-# Configure for plugin
-#========================
+#======================================================================
+# Enter verbose_name into two locations below
+# Also configure flatpak/org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml (name changes needed)
+#=======================================================================
     configure_file(
-        ${CMAKE_SOURCE_DIR}/squiddio-plugin.xml.in
+        ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
         ${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}.xml
     )
     add_custom_target(flatpak-build ALL
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/flatpak
         COMMAND flatpak-builder --force-clean
             ${CMAKE_CURRENT_BINARY_DIR}/app
-            org.opencpn.OpenCPN.Plugin.squiddio.yaml
+            org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml
     )
     add_custom_target("package")
     add_custom_command(
         TARGET package
-# Configure for plugin
+#====================================================		
+# Configure for plugin carfefully change the name
+#=======================================================
         COMMAND ${TAR}
             -czf ${PKG_NVR}_${PKG_TARGET_NVR}.tar.gz
             --transform 's|.*/files/|squiddio_pi-flatpak-${PACKAGE_VERSION}/|'
@@ -547,9 +551,9 @@ ENDIF(TINYXML_FOUND)
 ADD_DEFINITIONS(-DTIXML_USE_STL)
 
 
-#=======================================
-#  Adjust Library for the plugin
-#=======================================
+#==============================================
+#  Adjust ADD_LIBRARY listing for the plugin
+#===============================================
 ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_SQUIDDIO} ${SRC_NMEA0183} ${SRC_JSON} ${SRC_LTINYXML})
 
 IF (QT_ANDROID )
@@ -714,10 +718,11 @@ configure_file(
 )
 
 set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
-#=========================
-# Configure Plugin
-#=========================
+#==============================================
+# Configure Plugin  <pluginname>-plugin.xml.in
+# Used ${VERBOSE_NAME}
+#===============================================
 configure_file(
-  ${CMAKE_SOURCE_DIR}/squiddio-plugin.xml.in
+  ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}.xml
 )
