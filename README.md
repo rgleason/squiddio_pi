@@ -24,4 +24,4 @@ licenses including Expat, the Curl license, SGI-B, Zlib and Khronos. Refer
 to the source files for details.
 
 [1] https://www.opencpn.org <br>
-[2] http://squidd.io
+[2] https://squidd.io
