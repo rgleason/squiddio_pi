@@ -34,6 +34,7 @@
 
 # define minimum cmake version  (newer)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1.1)
+# This should be 2.8.0 to have FindGTK2 module
 											  
 IF (COMMAND cmake_policy)
   if (POLICY CMP0043)
@@ -92,6 +93,7 @@ SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
 
 SET(API_DIR "${CMAKE_SOURCE_DIR}/api-16")
 SET(OCPN_USE_API_16 ON)
+
 SET(OCPN_MIN_VERSION "ov50")
 #OPTION(OCPN_USE_API_16 "Use plugin api 16 (default: api 13)." OFF)
 OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
@@ -101,14 +103,14 @@ OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
 #======================================
 set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 
-IF( NOT CMAKE_BUILD_TYPE )
-  SET( CMAKE_BUILD_TYPE Release CACHE STRING
-       "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
-       FORCE )
-ENDIF( NOT CMAKE_BUILD_TYPE )
+#IF( NOT CMAKE_BUILD_TYPE )
+#  SET( CMAKE_BUILD_TYPE Release CACHE STRING
+#       "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
+#       FORCE )
+#ENDIF( NOT CMAKE_BUILD_TYPE )
 
 # used in ci/circleci-build-fedora.sh
-#cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 
 
 MESSAGE (STATUS "Build type: ${CMAKE_BUILD_TYPE}")
@@ -146,11 +148,11 @@ IF (NOT WIN32)
   # default
   SET (ARCH "i386")
   IF (UNIX AND NOT APPLE)
-    IF (PREFIX)
-        SET(CMAKE_INSTALL_PREFIX ${PREFIX})
-    ELSE (PREFIX )
-        SET(CMAKE_INSTALL_PREFIX "/usr")
-    ENDIF (PREFIX)
+#    IF (PREFIX)
+#        SET(CMAKE_INSTALL_PREFIX ${PREFIX})
+#    ELSE (PREFIX )
+#        SET(CMAKE_INSTALL_PREFIX "/usr")
+#    ENDIF (PREFIX)
 
     MESSAGE (STATUS "*** Will install to ${CMAKE_INSTALL_PREFIX}  ***")
 
