@@ -20,30 +20,30 @@
 
 
 # define minimum cmake version
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
+#CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
 # This should be 2.8.0 to have FindGTK2 module
-IF (COMMAND cmake_policy)
-  CMAKE_POLICY(SET CMP0003 NEW)
-  CMAKE_POLICY(SET CMP0005 NEW)
-  CMAKE_POLICY(SET CMP0011 NEW)
-  CMAKE_POLICY(SET CMP0037 NEW)
-  if (POLICY CMP0053)
-      CMAKE_POLICY(SET CMP0053 NEW)
-  endif ()
-ENDIF (COMMAND cmake_policy)
+#IF (COMMAND cmake_policy)
+#  CMAKE_POLICY(SET CMP0003 NEW)
+#  CMAKE_POLICY(SET CMP0005 NEW)
+#  CMAKE_POLICY(SET CMP0011 NEW)
+#  CMAKE_POLICY(SET CMP0037 NEW)
+#  if (POLICY CMP0053)
+#      CMAKE_POLICY(SET CMP0053 NEW)
+#  endif ()
+#ENDIF (COMMAND cmake_policy)
 
 # define minimum cmake version  (newer)
-#CMAKE_MINIMUM_REQUIRED(VERSION 3.1.1)
-#											  
-#IF (COMMAND cmake_policy)
-#  if (POLICY CMP0043)
-#    CMAKE_POLICY(SET CMP0043 NEW)
-#							   
-#  endif (POLICY CMP0043)
-#  if (POLICY CMP0077)
-#    CMAKE_POLICY(SET CMP0077 NEW)
-#  endif (POLICY CMP0077)
-#ENDIF (COMMAND cmake_policy)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.1.1)
+											  
+IF (COMMAND cmake_policy)
+  if (POLICY CMP0043)
+    CMAKE_POLICY(SET CMP0043 NEW)
+							   
+  endif (POLICY CMP0043)
+  if (POLICY CMP0077)
+    CMAKE_POLICY(SET CMP0077 NEW)
+  endif (POLICY CMP0077)
+ENDIF (COMMAND cmake_policy)
 
 # Prefer libGL.so to libOpenGL.so, see CMP0072
 set(OpenGL_GL_PREFERENCE "LEGACY")
@@ -92,7 +92,6 @@ SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
 
 SET(API_DIR "${CMAKE_SOURCE_DIR}/api-16")
 SET(OCPN_USE_API_16 ON)
-
 SET(OCPN_MIN_VERSION "ov50")
 #OPTION(OCPN_USE_API_16 "Use plugin api 16 (default: api 13)." OFF)
 OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
@@ -140,7 +139,7 @@ if (CMAKE_VERSION VERSION_LESS "3.1")
   endif()
 else ()
   set (CMAKE_CXX_STANDARD 11)
-  message(STATUS "Setting C++11 standard via cmake standard mecahnism")
+  message(STATUS "Setting C++11 standard via cmake standard mechanism")
 endif ()
 
 IF (NOT WIN32)
