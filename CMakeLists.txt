@@ -103,14 +103,14 @@ OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
 #======================================
 set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 
-#IF( NOT CMAKE_BUILD_TYPE )
-#  SET( CMAKE_BUILD_TYPE Release CACHE STRING
-#       "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
-#       FORCE )
-#ENDIF( NOT CMAKE_BUILD_TYPE )
+IF( NOT CMAKE_BUILD_TYPE )
+  SET( CMAKE_BUILD_TYPE Release CACHE STRING
+       "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
+       FORCE )
+ENDIF( NOT CMAKE_BUILD_TYPE )
 
 # used in ci/circleci-build-fedora.sh
-cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+#cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 
 
 MESSAGE (STATUS "Build type: ${CMAKE_BUILD_TYPE}")
