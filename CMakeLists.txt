@@ -74,20 +74,21 @@ SET(PKG_NVR ${PACKAGE_NAME}-${PACKAGE_VERSION}-${PKG_RELEASE})
 # The @keyword@ references are patched to actual values by upload script.
 SET(TARBALL_URL "https://dl.cloudsmith.io/public/@pkg_repo@/raw")
 SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
-# Don't set it here
+# Don't set it here!!!
 # TO DEPLOY to Cloudsmith Repository URL's
 # SET YOUR STABLE_REPO, UNSTABLE_REPO and  PKG_REPO in
 #     ci/appveyor.upload.sh
 #     ci/circileci.upload.sh
-#    .travis.yml  under the env variable (twice)
+#     ciI/travis-build-raspbian-armhf.sh 
 #
-#Example:
-#Stable plugins artifacts repository url
-#     set(STABLE_REPO "mauro-calvi/squiddio-stable")
-# Scratch builds repository url
-#     set(UNSTABLE_REPO "mauro-calvi/squiddio-pi")
-# Stable manual installation packages repository url
-#     set(STABLE_PKG_REPO "mauro-calvi/manual")
+#Example: Plugins artifacts repository url
+# STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'mauro-calvi/squiddio-stable')
+# UNSTABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'mauro-calvi/squiddio-pi')
+# STABLE_PKG_REPO=${CLOUDSMITH_STABLE_REPO:-'mauro-calvi/manual')
+#
+# STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'rick-gleason/opencpn-plugins-prod'}
+# UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'rick-gleason/opencpn-plugins-beta'}
+# PKG_REPO=${CLOUDSMITH_PKG_REPO:-'rick-gleason/opencpn-plugins-pkg'}
 #
 #=============================================================
 
@@ -108,10 +109,6 @@ IF( NOT CMAKE_BUILD_TYPE )
        "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
        FORCE )
 ENDIF( NOT CMAKE_BUILD_TYPE )
-
-# used in ci/circleci-build-fedora.sh
-#cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-
 
 MESSAGE (STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
@@ -315,8 +312,6 @@ INCLUDE("cmake/PluginConfigure.cmake")
 #==============================================================
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/wxJSON)
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src)
-# INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/cpl)
-# INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/dsa)
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR})
 
 if (OCPN_USE_API_16) 
