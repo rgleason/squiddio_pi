@@ -18,20 +18,6 @@
 ## *   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          *
 ## ***************************************************************************			  
 
-
-# define minimum cmake version
-#CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
-# This should be 2.8.0 to have FindGTK2 module
-#IF (COMMAND cmake_policy)
-#  CMAKE_POLICY(SET CMP0003 NEW)
-#  CMAKE_POLICY(SET CMP0005 NEW)
-#  CMAKE_POLICY(SET CMP0011 NEW)
-#  CMAKE_POLICY(SET CMP0037 NEW)
-#  if (POLICY CMP0053)
-#      CMAKE_POLICY(SET CMP0053 NEW)
-#  endif ()
-#ENDIF (COMMAND cmake_policy)
-
 # define minimum cmake version  (newer)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1.1)
 # This should be 2.8.0 to have FindGTK2 module
@@ -99,9 +85,6 @@ SET(OCPN_MIN_VERSION "ov50")
 #OPTION(OCPN_USE_API_16 "Use plugin api 16 (default: api 13)." OFF)
 OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
 
-#======================================
-# Enter verbose_name into PLUGIN_NAME  
-#======================================
 set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 
 IF( NOT CMAKE_BUILD_TYPE )
@@ -145,14 +128,7 @@ IF (NOT WIN32)
   # default
   SET (ARCH "i386")
   IF (UNIX AND NOT APPLE)
-#    IF (PREFIX)
-#        SET(CMAKE_INSTALL_PREFIX ${PREFIX})
-#    ELSE (PREFIX )
-#        SET(CMAKE_INSTALL_PREFIX "/usr")
-#    ENDIF (PREFIX)
-
     MESSAGE (STATUS "*** Will install to ${CMAKE_INSTALL_PREFIX}  ***")
-
     IF (EXISTS /etc/debian_version)
       MESSAGE (STATUS "*** Debian detected  ***")
       SET (PACKAGE_FORMAT "DEB")
@@ -248,6 +224,9 @@ if (OCPN_FLATPAK)
 #======================================================================
 # Enter verbose_name into two locations below
 # Also configure flatpak/org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml (name changes needed)
+# Also configure <PLUGIN_NAME>.xml file. 
+# Enter the "CommonName" into <name>Squiddio</name>.  
+# The "CommonName" is found from src/squiddio_pi.cpp search for "GetCommonName"
 #=======================================================================
     configure_file(
         ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
@@ -263,11 +242,12 @@ if (OCPN_FLATPAK)
     add_custom_command(
         TARGET package
 #====================================================		
-# Configure for plugin carfefully change the name
+# Configure for plugin carefully change the name
+#  Used ${VERBOSE_NAME} 
 #=======================================================
         COMMAND ${TAR}
             -czf ${PKG_NVR}_${PKG_TARGET_NVR}.tar.gz
-            --transform 's|.*/files/|squiddio_pi-flatpak-${PACKAGE_VERSION}/|'
+            --transform 's|.*/files/|${VERBOSE_NAME}_pi-flatpak-${PACKAGE_VERSION}/|'
             ${CMAKE_CURRENT_BINARY_DIR}/app/files
     )
     return ()
@@ -578,123 +558,18 @@ TARGET_LINK_LIBRARIES( ${PACKAGE_NAME} ${wxWidgets_LIBRARIES} )
 ENDIF(NOT APPLE)
 
 
-
+#====================================================
 # Install any special data files or binary helpers here....
-# The PlugIn library itself and any "data" directory (with contents) gets installed in generic PluginInstall.cmake later
+# The PlugIn library itself and any "data" directory (with contents) 
+# gets installed in generic PluginInstall.cmake later
+#=========================================================
 
 IF(UNIX AND NOT APPLE)
 SET(PARENT opencpn)
 SET(PREFIX_PLUGINS ${LIB_INSTALL_DIR}/${PARENT})
 SET(PREFIX_PARENTBIN bin)
 SET(PREFIX_PARENTDATA ${PREFIX_DATA}/${PARENT})
-
-
-#IF (ARCH MATCHES "amd64" OR ARCH MATCHES "x86_64")
-#    INSTALL(FILES "buildlinux64/oeserverd/oeserverd"
-#      PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#       DESTINATION ${PREFIX_PARENTBIN})
-#    #INSTALL(FILES "buildlinux64/oeserverd/libsgllnx64-2.29.02.so"
-#    #   PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#    #   DESTINATION ${PREFIX_PLUGINS})
-#    #INSTALL(FILES "buildlinux64/oeserverd/libsgllnx64-2.29.02.so"
-#    #   PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#    #   DESTINATION ${LIB_INSTALL_DIR})
-#ELSE (ARCH MATCHES "amd64" OR ARCH MATCHES "x86_64")
-
-#    IF (ARCH MATCHES "arm*" )
-
-#        IF (ARCH MATCHES "armhf" )
-#            INSTALL(FILES "buildlinuxarm/oeserverd/oeserverd"
-#                PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#                DESTINATION ${PREFIX_PARENTBIN})
-#            #INSTALL(FILES "buildlinuxarm/oeserverd/libsglarmhf32-2.30.0.0.so"
-#            #    PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#            #    DESTINATION ${PREFIX_PLUGINS})
-#            #INSTALL(FILES "buildlinuxarm/oeserverd/libsglarmhf32-2.30.0.0.so"
-#            #    PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#            #    DESTINATION ${LIB_INSTALL_DIR})
-#        ELSE (ARCH MATCHES "armhf" )
-#            INSTALL(FILES "buildlinuxarm64/oeserverd/oeserverd"
-#                PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#                DESTINATION ${PREFIX_PARENTBIN})
-#        ENDIF (ARCH MATCHES "armhf" )
-    
-#    ELSE (ARCH MATCHES "arm*" )
-#        INSTALL(FILES "buildlinux/oeserverd/oeserverd"
-#          PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#          DESTINATION ${PREFIX_PARENTBIN})
-#        #INSTALL(FILES "buildlinux/oeserverd/libsgllnx-2.29.0.1.so"
-#        #  PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#        #  DESTINATION ${PREFIX_PLUGINS})
-#        #INSTALL(FILES "buildlinux/oeserverd/libsgllnx-2.29.0.1.so"
-#        #  PERMISSIONS OWNER_READ OWNER_EXECUTE OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-#        #  DESTINATION ${LIB_INSTALL_DIR})
-
-#    ENDIF (ARCH MATCHES "arm*" )
-
-#ENDIF (ARCH MATCHES "amd64" OR ARCH MATCHES "x86_64")
-
-#IF(PACKAGE_FORMAT MATCHES "DEB")
-        
-#        INSTALL(FILES "buildlinux/oeserverd/98-sglock.rules"
-#          PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ 
-#          DESTINATION "/etc/udev/rules.d")
-
-#ENDIF(PACKAGE_FORMAT MATCHES "DEB")
-
-
-
-# INSTALL(FILES "src/rrc_eula_ChartSetsForOpenCPN-v16-12.txt"
-#      PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-#      DESTINATION ${PREFIX_PARENTDATA}/plugins/${PACKAGE_NAME} )
-
 ENDIF(UNIX AND NOT APPLE)
-
-#IF(WIN32)
-#    INSTALL(FILES "buildwin/oeserverd/oeserverd.exe"
-#       PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ WORLD_EXECUTE
-#       DESTINATION "plugins\\\\${PACKAGE_NAME}")
-
-
-#    FILE(GLOB vcdll_files "${CMAKE_CURRENT_SOURCE_DIR}/buildwin/oeserverd/*.dll")
-#    INSTALL(FILES ${vcdll_files}
-#       PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ WORLD_EXECUTE
-#       DESTINATION "plugins\\\\${PACKAGE_NAME}")
-
-#    #INSTALL(FILES "buildwin/oeserverd/SglW32.dll"
-#    #   PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ WORLD_EXECUTE
-#    #   DESTINATION "plugins\\\\${PACKAGE_NAME}")
-
-#    INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME DESTINATION "plugins")
-#    SET(INSTALL_DIRECTORY "plugins\\\\${PACKAGE_NAME}")
-
-##    INSTALL(FILES "src/rrc_eula_ChartSetsForOpenCPN-v16-12.txt"
-##      PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-##      DESTINATION ${INSTALL_DIRECTORY} )
-
-#ENDIF(WIN32)
-
-#IF(APPLE)
-#
-#INSTALL(FILES "buildosx/oeserverd/oeserverd"
-#       PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ WORLD_EXECUTE
-#       DESTINATION "OpenCPN.app/Contents/PlugIns/")
-#
-#INSTALL(FILES "src/rrc_eula_ChartSetsForOpenCPN.txt"
-#      PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-#      DESTINATION "OpenCPN.app/Contents/SharedSupport/plugins/${PACKAGE_NAME}" )
-#
-#  # We also need to copy the helper utility and required dylibs to the binary build directory so that the PACKAGES scripts will find it.
-#configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/oeserverd
-#            ${CMAKE_CURRENT_BINARY_DIR}/oeserverd COPYONLY)
-#
-#configure_file(${PROJECT_SOURCE_DIR}/buildosx/oeserverd/libsglmac-2.29.0.0.dylib.x86_64
-#            ${CMAKE_CURRENT_BINARY_DIR}/libsglmac-2.29.0.0.dylib.x86_64 COPYONLY)
-#
-##configure_file(${PROJECT_SOURCE_DIR}/src/rrc_eula_ChartSetsForOpenCPN.txt
-##            ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-#
-#ENDIF(APPLE)
 
 
 IF(NOT WIN32)
