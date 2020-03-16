@@ -36,7 +36,7 @@ ENDIF (COMMAND cmake_policy)
 set(OpenGL_GL_PREFERENCE "LEGACY")
 
 #=============================================== 
-# Enter plugin specifics here
+# Plugin Specifics - Modify carefully 
 #================================================
 PROJECT(squiddio_pi)
 
@@ -60,12 +60,13 @@ SET(PKG_NVR ${PACKAGE_NAME}-${PACKAGE_VERSION}-${PKG_RELEASE})
 # The @keyword@ references are patched to actual values by upload script.
 SET(TARBALL_URL "https://dl.cloudsmith.io/public/@pkg_repo@/raw")
 SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
-# Don't set it here!!!
+# DO NOT SET IT ABOVE!!
 # TO DEPLOY to Cloudsmith Repository URL's
-# SET YOUR STABLE_REPO, UNSTABLE_REPO and  PKG_REPO in
+# SET YOUR STABLE_REPO, UNSTABLE_REPO and PKG_REPO in
 #     ci/appveyor.upload.sh
-#     ci/circileci.upload.sh
-#     ciI/travis-build-raspbian-armhf.sh 
+#     ci/circleci.upload.sh
+#     ci/circleci.build.trusty.sh
+#     ci/travis-build-raspbian-armhf.sh 
 #
 #Example: Plugins artifacts repository url
 # STABLE_REPO=${CLOUDSMITH_STABLE_REPO:-'mauro-calvi/squiddio-stable')
@@ -221,13 +222,22 @@ if (OCPN_FLATPAK)
     if (NOT TAR)
         message(FATAL_ERROR "tar not found, required for OCPN_FLATPAK")
     endif ()
-#======================================================================
-# Enter verbose_name into two locations below
-# Also configure flatpak/org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml (name changes needed)
-# Also configure <PLUGIN_NAME>.xml file. 
-# Enter the "CommonName" into <name>Squiddio</name>.  
+#=============================================================================
+# Check the actual name of the existing file in flatpak/
+#
+#    flatpak/org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml 
+#
+# Then edit the 3 instances in the file to use the plugin verbose_name
+# Then configure the important Metadata creation file
+#
+#               <squiddio>_plugin.xml.in  
+# 
+# Change the name of this file in the plugin directory 
+# First enter the "CommonName" into the <name>Squiddio</name> field.  
 # The "CommonName" is found from src/squiddio_pi.cpp search for "GetCommonName"
-#=======================================================================
+# Then edit the rest of the file carefully, without changing the html format.
+#
+#==============================================================================
     configure_file(
         ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
         ${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}.xml
@@ -241,10 +251,10 @@ if (OCPN_FLATPAK)
     add_custom_target("package")
     add_custom_command(
         TARGET package
-#====================================================		
-# Configure for plugin carefully change the name
-#  Used ${VERBOSE_NAME} 
-#=======================================================
+#=====================================================================		
+# This Command has been configured to automatically change the name
+#  of the package TAR to use the plugin's ${VERBOSE_NAME} 
+#=====================================================================
         COMMAND ${TAR}
             -czf ${PKG_NVR}_${PKG_TARGET_NVR}.tar.gz
             --transform 's|.*/files/|${VERBOSE_NAME}_pi-flatpak-${PACKAGE_VERSION}/|'
@@ -257,6 +267,7 @@ endif()
 # =========================================================
 #  To build for android, use this cmake invocation..
 # =========================================================
+#  Note this is from a another plugin project, it may not work.
 #$cmake -DUSE_GARMINHOST=OFF -D_wx_selected_config=androideabi-qt
 #-DCMAKE_TOOLCHAIN_FILE=../buildandroid/build_android.cmake
 #-DwxQt_Build=build_android_55_intl -DwxQt_Base=/home/dsr/Projects/wxqt/wxWidgets
@@ -288,7 +299,7 @@ ENDIF(DEFINED _wx_selected_config)
 INCLUDE("cmake/PluginConfigure.cmake")
 
 #==============================================================
-#Include Directories Configured for the plugin
+# Modify the 'Include' Directories to configure for Actual Plugin
 #==============================================================
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/wxJSON)
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src)
@@ -337,9 +348,10 @@ ADD_DEFINITIONS(-DTIXML_USE_STL)
 # For convenience we define the sources as a variable. You can add
 # header files and cpp/c files and CMake will sort them out
 #
-#Unique to plugin. Listing of files and .h files.
-#Copy from plugin's existing working CMakeLists.txt file
-#or build it yourself.
+# MODIFY these files configured to this plugin. 
+# Listing of files and .h files.
+# Copy from plugin's existing working CMakeLists.txt file
+# or build it yourself.
 #=======================================================
 
 SET(SRC_SQUIDDIO
@@ -457,14 +469,6 @@ INCLUDE_DIRECTORIES(nmea0183)
 INCLUDE_DIRECTORIES(src/wxJSON)
 INCLUDE_DIRECTORIES(api-16)
 
-
-#IF(NOT QT_ANDROID)
-#    SET(SRC_OSHOP 
-#        src/ochartShop.cpp
-#        src/ochartShop.h
-#        )
-#ENDIF(NOT QT_ANDROID)
-
 OPTION(OCPN_USE_CURL "Use Curl libraries" ON)
 ADD_DEFINITIONS(-D__OCPN_USE_CURL__)
 
@@ -527,9 +531,9 @@ ENDIF(TINYXML_FOUND)
 ADD_DEFINITIONS(-DTIXML_USE_STL)
 
 
-#==============================================
-#  Adjust ADD_LIBRARY listing for the plugin
-#===============================================
+#===============================================================
+#  MODIFY and adjust ADD_LIBRARY listing for the plugin
+#===============================================================
 ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_SQUIDDIO} ${SRC_NMEA0183} ${SRC_JSON} ${SRC_LTINYXML})
 
 IF (QT_ANDROID )
@@ -558,11 +562,11 @@ TARGET_LINK_LIBRARIES( ${PACKAGE_NAME} ${wxWidgets_LIBRARIES} )
 ENDIF(NOT APPLE)
 
 
-#====================================================
+#====================================================================
 # Install any special data files or binary helpers here....
 # The PlugIn library itself and any "data" directory (with contents) 
 # gets installed in generic PluginInstall.cmake later
-#=========================================================
+#====================================================================
 
 IF(UNIX AND NOT APPLE)
 SET(PARENT opencpn)
@@ -590,8 +594,11 @@ configure_file(
 
 set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 #==============================================
-# Configure Plugin  <pluginname>-plugin.xml.in
-# Used ${VERBOSE_NAME}
+# Automatically configure
+#
+#     <pluginname>-plugin.xml.in
+#
+# by using ${VERBOSE_NAME}
 #===============================================
 configure_file(
   ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
