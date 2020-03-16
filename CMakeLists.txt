@@ -35,8 +35,8 @@ ENDIF (COMMAND cmake_policy)
 # Prefer libGL.so to libOpenGL.so, see CMP0072
 set(OpenGL_GL_PREFERENCE "LEGACY")
 
-#=============================================== 
-# Plugin Specifics - Modify carefully 
+#================================================ 
+# Plugin Specifics - Modify for plugin specifics
 #================================================
 PROJECT(squiddio_pi)
 
@@ -56,11 +56,15 @@ SET(PKG_RELEASE "1")
 SET(PKG_API_VERSION "1.16")
 SET(PKG_AUTHOR "Mauro Calvi")
 SET(PKG_NVR ${PACKAGE_NAME}-${PACKAGE_VERSION}-${PKG_RELEASE})
+# ================================================
+# Plugin Specifics  -End of Header
+# ================================================
 
 # The @keyword@ references are patched to actual values by upload script.
 SET(TARBALL_URL "https://dl.cloudsmith.io/public/@pkg_repo@/raw")
 SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
-# DO NOT SET IT ABOVE!!
+# DO NOT SET CHANGE OR SET PATHS ABOVE!!
+# Do this last after all scripts are working on Circleci, Appveyor & Travis-ci
 # TO DEPLOY to Cloudsmith Repository URL's
 # SET YOUR STABLE_REPO, UNSTABLE_REPO and PKG_REPO in
 #     ci/appveyor.upload.sh
@@ -81,10 +85,12 @@ SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
 
 SET(API_DIR "${CMAKE_SOURCE_DIR}/api-16")
 SET(OCPN_USE_API_16 ON)
+#OPTION(OCPN_USE_API_16 "Use plugin api 16 (default: api 13)." OFF)
 
 SET(OCPN_MIN_VERSION "ov50")
-#OPTION(OCPN_USE_API_16 "Use plugin api 16 (default: api 13)." OFF)
+
 OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
+# Turned on under flatpak build
 
 set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 
@@ -223,19 +229,26 @@ if (OCPN_FLATPAK)
         message(FATAL_ERROR "tar not found, required for OCPN_FLATPAK")
     endif ()
 #=============================================================================
-# Check the actual name of the existing file in flatpak/
+# Check the actual name of the existing file in flatpak directory
 #
-#    flatpak/org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml 
+#         flatpak/org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml 
 #
-# Then edit the 3 instances in the file to use the plugin verbose_name
-# Then configure the important Metadata creation file
+# Then edit the 3 instances in the file to use the text in plugin (VERBOSE_NAME)
 #
-#               <squiddio>_plugin.xml.in  
+# Then Determine the plugin "CommonName" which is found 
+# by searching the file below for "GetCommonName" 
+#
+#         src/squiddio_pi.cpp 
+#
+# Record that name carefully, noting capitalization.
+# Modify the name this Metadata.xml file in the root plugin directory 
+#
+#         <squiddio>_plugin.xml.in  
 # 
-# Change the name of this file in the plugin directory 
-# First enter the "CommonName" into the <name>Squiddio</name> field.  
-# The "CommonName" is found from src/squiddio_pi.cpp search for "GetCommonName"
-# Then edit the rest of the file carefully, without changing the html format.
+# Then Text Edit the file carefully, without changing the html format.
+# and enter the "CommonName" into this field
+#
+#         <name>Squiddio</name>  
 #
 #==============================================================================
     configure_file(
@@ -266,8 +279,8 @@ endif()
 
 # =========================================================
 #  To build for android, use this cmake invocation..
-# =========================================================
 #  Note this is from a another plugin project, it may not work.
+# =========================================================
 #$cmake -DUSE_GARMINHOST=OFF -D_wx_selected_config=androideabi-qt
 #-DCMAKE_TOOLCHAIN_FILE=../buildandroid/build_android.cmake
 #-DwxQt_Build=build_android_55_intl -DwxQt_Base=/home/dsr/Projects/wxqt/wxWidgets
@@ -295,12 +308,15 @@ ENDIF(_wx_selected_config MATCHES "androideabi-qt")
 
 ENDIF(DEFINED _wx_selected_config)
 
+#===========================================================
+# Check cmake/PluginConfigure.cmake, no need to configure
+#===========================================================
 
 INCLUDE("cmake/PluginConfigure.cmake")
 
-#==============================================================
-# Modify the 'Include' Directories to configure for Actual Plugin
-#==============================================================
+#=============================================================
+# Modify/configure 'Include' Directories below for the Plugin
+#=============================================================
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/wxJSON)
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src)
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR})
@@ -310,7 +326,7 @@ if (OCPN_USE_API_16)
 #else ()
 #  INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/api-13)
 endif ()
-#=========================================================
+#=============================================================
 
 IF(NOT WIN32)
  ADD_DEFINITIONS( "-Wall -g -fexceptions -O2 -Wno-unused -fno-strict-aliasing ")
@@ -344,7 +360,7 @@ LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 
 ADD_DEFINITIONS(-DTIXML_USE_STL)
 
-#=======================================================
+#=================================================================
 # For convenience we define the sources as a variable. You can add
 # header files and cpp/c files and CMake will sort them out
 #
@@ -352,7 +368,7 @@ ADD_DEFINITIONS(-DTIXML_USE_STL)
 # Listing of files and .h files.
 # Copy from plugin's existing working CMakeLists.txt file
 # or build it yourself.
-#=======================================================
+#=================================================================
 
 SET(SRC_SQUIDDIO
     src/squiddio_pi.h
@@ -582,6 +598,9 @@ ENDIF(NOT WIN32)
 
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "dsr")
 
+#============================================
+# Do not change needed to build app
+#=============================================
 INCLUDE("cmake/PluginLocalization.cmake")
 INCLUDE("cmake/PluginInstall.cmake")
 INCLUDE("cmake/PluginSetup.cmake")
@@ -593,13 +612,14 @@ configure_file(
 )
 
 set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
-#==============================================
-# Automatically configure
+
+#=============================================================
+# Automatically configures file using ${VERBOSE_NAME}
 #
 #     <pluginname>-plugin.xml.in
 #
-# by using ${VERBOSE_NAME}
-#===============================================
+# Modify/check these file names accordingly,  root directory 
+#=============================================================
 configure_file(
   ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}.xml
