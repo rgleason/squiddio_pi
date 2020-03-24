@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<opencpn-plugin version="1">
+<plugin version="1">
   <name> Squiddio </name>
   <version> ${PACKAGE_VERSION} </version>
   <release> ${PKG_RELEASE} </release>
@@ -21,4 +21,4 @@ Android comes with sQuiddio built in.
   <target>${PKG_TARGET}</target>
   <target-version>${PKG_TARGET_VERSION}</target-version>
   <tarball-url> ${TARBALL_URL} </tarball-url>
-</opencpn-plugin>
+</plugin>
