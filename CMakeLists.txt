@@ -41,7 +41,7 @@ set(OpenGL_GL_PREFERENCE "LEGACY")
 PROJECT(squiddio_pi)
 
 SET(PACKAGE_NAME squiddio_pi)
-SET(VERBOSE_NAME squiddio)  
+SET(VERBOSE_NAME squiddio)  #Not necessarily the same as CommonName, see below Line 238
 SET(PLUGIN_SOURCE_DIR .)
 MESSAGE (STATUS "*** Building ${PACKAGE_NAME} ***")
 
