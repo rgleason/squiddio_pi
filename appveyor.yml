@@ -12,8 +12,10 @@ platform:
 configuration: Release
 test: OFF
 
+environment:
+  OCPN_TARGET: MSVC
+
 install:
-  # VS2015 and earlier version - '"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x86'
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
 
 # sent environment variables for wxWidgets
@@ -24,6 +26,10 @@ install:
 
 # install dependencies:
   - choco install poedit
+  - choco install git
+
+  - ps: Start-FileDownload http://opencpn.navnux.org/build_deps/nsis-3.04-setup.exe
+  - cmd: nsis-3.04-setup.exe /S
 
   # Download and unzip wxwidgets
   - ps: Start-FileDownload http://opencpn.navnux.org/build_deps/wxWidgets-3.1.2.7z
@@ -41,11 +47,8 @@ before_build:
   - cmake -T v141_xp ..
 
 build_script:
-  - cmake -G "Visual Studio 15 2017"   ..
-  - cmake --build . --target install --config Release
   - cmake --build . --target package --config Release
-  - choco install git
   - python -m ensurepip
   - python -m pip install -q setuptools
   - python -m pip install -q cloudsmith-cli
-  - bash ../ci/appveyor-upload.sh
+  - bash ../build/cloudsmith-upload.sh
