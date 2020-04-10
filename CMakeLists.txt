@@ -598,13 +598,6 @@ ENDIF(NOT WIN32)
 
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "dsr")
 
-#============================================
-# Do not change needed to build app
-#=============================================
-INCLUDE("cmake/PluginLocalization.cmake")
-INCLUDE("cmake/PluginInstall.cmake")
-INCLUDE("cmake/PluginSetup.cmake")
-INCLUDE("cmake/PluginPackage.cmake")
 
 configure_file(
   ${CMAKE_SOURCE_DIR}/pkg_version.sh.in
@@ -624,3 +617,12 @@ configure_file(
   ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}.xml
 )
+
+#============================================
+# Do not change needed to build app
+#=============================================
+INCLUDE("cmake/PluginLocalization.cmake")
+INCLUDE("cmake/PluginInstall.cmake")
+INCLUDE("cmake/PluginSetup.cmake")
+INCLUDE("cmake/PluginPackage.cmake")
+
