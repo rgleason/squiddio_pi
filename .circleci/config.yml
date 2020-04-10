@@ -122,44 +122,44 @@ workflows:
           filters:
             branches:
               only:
-                 - ci
+                 - frontend1
       - build-xenial:
           filters:
             branches:
               only:
-                 - ci
+                 - frontend1
       - build-bionic:
           filters:
             branches:
               only:
-                 - ci
+                 - frontend1
       - build-bionic-gtk3:
           filters:
             branches:
               only: 
-                 - ci
+                 - frontend1
       - build-buster:
           filters:
             branches:
               only:
-                 - ci
+                 - frontend1
       - build-flatpak:
           filters:
             branches:
               only:
-                 - ci
+                 - frontend1
       - build-fedora:
           filters:
             branches:
               only:
-                 - ci
+                 - frontend1
       - build-macos:
           filters:
             branches:
               only:
-                 - ci
+                 - frontend1
       - build-mingw:
           filters:
             branches:
               only:
-                 - ci
+                 - frontend1
