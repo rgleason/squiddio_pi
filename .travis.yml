@@ -26,7 +26,8 @@ matrix:
 branches:
   only:
     - ci
-#    - master
+    - frontend1
+#   - master
 
 
 # ========
