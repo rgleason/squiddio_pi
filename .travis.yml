@@ -22,7 +22,9 @@ matrix:
     services:
     - docker
     script:
-    - "./ci/travis-build-raspbian-armhf.sh"
+    - travis_wait 40 sleep infinity & bash ./ci/travis-build-raspbian-armhf.sh
+#    - "./ci/travis-build-raspbian-armhf.sh"
+	
 branches:
   only:
     - ci
