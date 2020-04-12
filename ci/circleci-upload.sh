@@ -66,14 +66,19 @@ source $HOME/project/build/pkg_version.sh
 test -n "$tag" && VERSION="$tag" || VERSION="${VERSION}.${commit}"
 test -n "$tag" && REPO="$STABLE_REPO" || REPO="$UNSTABLE_REPO"
 tarball_name=${PROJECT}-${PKG_TARGET}-${PKG_TARGET_VERSION}-tarball
-xml_name=${PROJECT}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION}.xml
-#echo $xml_name
+
 
 
 sudo sed -i -e "s|@pkg_repo@|$REPO|" $xml
 sudo sed -i -e "s|@name@|$tarball_name|" $xml
 sudo sed -i -e "s|@version@|$VERSION|" $xml
 sudo sed -i -e "s|@filename@|$tarball_basename|" $xml
+
+sudo gunzip $tarball
+tarball_tar=$(ls $HOME/project/build/*.tar)
+sudo cp $xml metadata.xml 
+sudo tar -rf $tarball_tar metadata.xml
+sudo gzip $tarball_tar
 
 cloudsmith push raw --republish --no-wait-for-sync \
     --name ${PROJECT}-${PKG_TARGET}-${PKG_TARGET_VERSION}-metadata \

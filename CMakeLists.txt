@@ -55,6 +55,8 @@ SET(PACKAGE_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" )
 SET(PKG_RELEASE "3")
 SET(PKG_API_VERSION "1.16")
 SET(PKG_AUTHOR "Mauro Calvi")
+
+# NVR: <Name-version>[-release]
 SET(PKG_NVR ${PACKAGE_NAME}-${PACKAGE_VERSION}-${PKG_RELEASE})
 # ================================================
 # Plugin Specifics  -End of Header
@@ -93,7 +95,8 @@ SET(OCPN_MIN_VERSION "ov50")
 OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
 # Turned on under flatpak build
 
-set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
+#set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
+set(PLUGIN_NAME ${PKG_NVR}_${PKG_TARGET}-${PKG_TARGET_VERSION})
 
 IF( NOT CMAKE_BUILD_TYPE )
   SET( CMAKE_BUILD_TYPE Release CACHE STRING
@@ -324,8 +327,8 @@ INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR})
 
 if (OCPN_USE_API_16) 
   INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/api-16)
-#else ()
-#  INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/api-13)
+else ()
+  INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/api-13)
 endif ()
 #=============================================================
 

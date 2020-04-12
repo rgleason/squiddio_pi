@@ -34,7 +34,8 @@ tarball=$(ls *.tar.gz)
 tarball_basename=${tarball##*/}
 
 # extract the project name for a filename.  e.g. oernc-pi... sets PROJECT to  "oernc"
-PROJECT=$(ls *.xml | awk '{split($0,a,"-"); print a[1]}')
+#PROJECT=$(ls *.xml | awk '{split($0,a,"-"); print a[1]}')
+PROJECT=${tarball_basename%%_pi*}
 echo $PROJECT
 
 source ../build/pkg_version.sh
@@ -51,6 +52,12 @@ while read line; do
     line=${line/@filename@/$tarball_basename}
     echo $line
 done < $xml > xml.tmp && cp xml.tmp $xml && rm xml.tmp
+
+gunzip $tarball
+tarball_tar=$(ls *.tar)
+cp $xml metadata.xml 
+tar -rf $tarball_tar metadata.xml
+gzip $tarball_tar
 
 cloudsmith push raw --republish --no-wait-for-sync \
     --name ${PROJECT}-${PKG_TARGET}-${PKG_TARGET_VERSION}-metadata \
