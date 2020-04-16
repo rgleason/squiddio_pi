@@ -1,3 +1,10 @@
+##==========================================================
+#-----FRONTEND1 + Cmake
+#-----Version: 1.01
+#-----Author:  bdbcat aka. dsr (Dave Register)
+# Copyright:  
+# License:     wxWidgets License
+##==========================================================
 ##---------------------------------------------------------------------------
 ## Author:      Mauro Calvi
 ##***************************************************************************
@@ -16,7 +23,7 @@
 ## *   along with this program; if not, write to the                         *
 ## *   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,                                       *
 ## *   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          *
-## ***************************************************************************			  
+## ##***************************************************************************			  
 
 # define minimum cmake version  (newer)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1.1)
@@ -25,7 +32,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1.1)
 IF (COMMAND cmake_policy)
   if (POLICY CMP0043)
     CMAKE_POLICY(SET CMP0043 NEW)
-							   
   endif (POLICY CMP0043)
   if (POLICY CMP0077)
     CMAKE_POLICY(SET CMP0077 NEW)
@@ -42,9 +48,10 @@ PROJECT(squiddio_pi)
 
 SET(PACKAGE_NAME squiddio_pi)
 SET(VERBOSE_NAME squiddio)  #Not necessarily the same as CommonName, see below Line 238
-SET(PLUGIN_SOURCE_DIR .)
+#SET(PLUGIN_SOURCE_DIR .)
 MESSAGE (STATUS "*** Building ${PACKAGE_NAME} ***")
 
+#include("VERSION.cmake")
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "3")
 SET(VERSION_PATCH "1")
@@ -52,7 +59,7 @@ SET(VERSION_TWEAK "0")
 SET(VERSION_DATE "04/10/2020")
 SET(PACKAGE_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" )
 
-SET(PKG_RELEASE "3")
+SET(PKG_RELEASE "0")
 SET(PKG_API_VERSION "1.16")
 SET(PKG_AUTHOR "Mauro Calvi")
 
@@ -85,7 +92,6 @@ SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
 #
 #=============================================================
 
-
 SET(API_DIR "${CMAKE_SOURCE_DIR}/api-16")
 SET(OCPN_USE_API_16 ON)
 #OPTION(OCPN_USE_API_16 "Use plugin api 16 (default: api 13)." OFF)
@@ -94,8 +100,6 @@ SET(OCPN_MIN_VERSION "ov50")
 
 OPTION(OCPN_FLATPAK "Build flatpak plugin" OFF)
 # Turned on under flatpak build
-
-#set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 set(PLUGIN_NAME ${PKG_NVR}_${PKG_TARGET}-${PKG_TARGET_VERSION})
 
 IF( NOT CMAKE_BUILD_TYPE )
@@ -139,7 +143,9 @@ IF (NOT WIN32)
   # default
   SET (ARCH "i386")
   IF (UNIX AND NOT APPLE)
+
     MESSAGE (STATUS "*** Will install to ${CMAKE_INSTALL_PREFIX}  ***")
+
     IF (EXISTS /etc/debian_version)
       MESSAGE (STATUS "*** Debian detected  ***")
       SET (PACKAGE_FORMAT "DEB")
@@ -263,7 +269,7 @@ if (OCPN_FLATPAK)
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/flatpak
         COMMAND flatpak-builder --force-clean
             ${CMAKE_CURRENT_BINARY_DIR}/app
-            org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml
+             org.opencpn.OpenCPN.Plugin.${VERBOSE_NAME}.yaml
     )
     add_custom_target("package")
     add_custom_command(
@@ -274,7 +280,7 @@ if (OCPN_FLATPAK)
 #=====================================================================
         COMMAND ${TAR}
             -czf ${PKG_NVR}_${PKG_TARGET_NVR}.tar.gz
-            --transform 's|.*/files/|${VERBOSE_NAME}_pi-flatpak-${PACKAGE_VERSION}/|'
+            --transform 's|.*/files/|oesenc_pi-flatpak-${PACKAGE_VERSION}/|'
             ${CMAKE_CURRENT_BINARY_DIR}/app/files
     )
     return ()
@@ -323,6 +329,8 @@ INCLUDE("cmake/PluginConfigure.cmake")
 #=============================================================
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/wxJSON)
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src)
+#INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/cpl)
+#INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/dsa)
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR})
 
 if (OCPN_USE_API_16) 
@@ -373,6 +381,7 @@ ADD_DEFINITIONS(-DTIXML_USE_STL)
 # Copy from plugin's existing working CMakeLists.txt file
 # or build it yourself.
 #=================================================================
+
 
 SET(SRC_SQUIDDIO
     src/squiddio_pi.h
@@ -542,7 +551,7 @@ IF(UNIX AND NOT APPLE)
 ENDIF(UNIX AND NOT APPLE)
 
 IF(TINYXML_FOUND)
- message (STATUS "oeSENCr_pi building with system tinyxml")
+ message (STATUS "Plugin is building with system tinyxml")
  INCLUDE_DIRECTORIES(${TINYXML_INCLUDE_DIR})
 ELSE(TINYXML_FOUND)
  message (STATUS "Plugin is building with embedded tinyxml")
@@ -563,7 +572,6 @@ IF (QT_ANDROID )
     TARGET_LINK_LIBRARIES( ${PACKAGE_NAME}  ${Qt_Base}/${Qt_Build}/lib/libQt5Core.so )
     TARGET_LINK_LIBRARIES( ${PACKAGE_NAME} "${OCPN_Base}/${OCPN_Build}/libgorp.so" )
 ENDIF(QT_ANDROID)
-
 
 if (MINGW)
   SET(OPENCPN_IMPORT_LIB "${API_DIR}/mingw/libopencpn.dll.a")
@@ -589,12 +597,11 @@ ENDIF(NOT APPLE)
 #====================================================================
 
 IF(UNIX AND NOT APPLE)
-SET(PARENT opencpn)
-SET(PREFIX_PLUGINS ${LIB_INSTALL_DIR}/${PARENT})
-SET(PREFIX_PARENTBIN bin)
-SET(PREFIX_PARENTDATA ${PREFIX_DATA}/${PARENT})
+ SET(PARENT opencpn)
+ SET(PREFIX_PLUGINS ${LIB_INSTALL_DIR}/${PARENT})
+ SET(PREFIX_PARENTBIN bin)
+ SET(PREFIX_PARENTDATA ${PREFIX_DATA}/${PARENT})
 ENDIF(UNIX AND NOT APPLE)
-
 
 IF(NOT WIN32)
 SET(CPACK_SET_DESTDIR ON)
@@ -612,7 +619,6 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/pkg_version.sh
 )
 
-
 set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 
 #=============================================================
@@ -623,7 +629,7 @@ set(PLUGIN_NAME ${VERBOSE_NAME}-plugin-${PKG_TARGET}-${PKG_TARGET_VERSION})
 # Modify/check these file names accordingly,  root directory 
 #=============================================================
 configure_file(
-  ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
+   ${CMAKE_SOURCE_DIR}/${VERBOSE_NAME}-plugin.xml.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}.xml
 )
 
