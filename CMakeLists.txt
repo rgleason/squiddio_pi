@@ -280,7 +280,7 @@ if (OCPN_FLATPAK)
 #=====================================================================
         COMMAND ${TAR}
             -czf ${PKG_NVR}_${PKG_TARGET_NVR}.tar.gz
-            --transform 's|.*/files/|oesenc_pi-flatpak-${PACKAGE_VERSION}/|'
+            --transform 's|.*/files/|${VERBOSE_NAME}-flatpak-${PACKAGE_VERSION}/|'
             ${CMAKE_CURRENT_BINARY_DIR}/app/files
     )
     return ()
