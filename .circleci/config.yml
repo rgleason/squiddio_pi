@@ -170,5 +170,4 @@ workflows:
             branches:
                only:
                 - master
-                - frontend1
-				
+                - frontend1			
