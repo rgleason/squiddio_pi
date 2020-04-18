@@ -6,7 +6,6 @@
 
 set -xe
 
-
 source $HOME/project/ci/commons.sh
 
 #UNSTABLE_REPO=${CLOUDSMITH_UNSTABLE_REPO:-'david-register/ocpn-plugins-unstable'}
