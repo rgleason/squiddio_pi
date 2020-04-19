@@ -152,13 +152,13 @@ workflows:
             branches:
               only:
                 - master
-                - frontend1						
+                - frontend1
       - build-fedora:
           filters:
             branches:
               only:
                 - master
-                - frontend1							
+                - frontend1
       - build-macos:
           filters:
             branches:
@@ -170,4 +170,4 @@ workflows:
             branches:
                only:
                 - master
-                - frontend1			
+                - frontend1

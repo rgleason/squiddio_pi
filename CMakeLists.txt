@@ -1,11 +1,8 @@
-##==========================================================
-#-----FRONTEND1 + Cmake
-#-----Version: 1.01
+##============================================================================
+#-----FRONTEND1 + Cmake   Version: 1.02     4-18-2020
 #-----Author:  bdbcat aka. dsr (Dave Register)
-# Copyright:  
 # License:     wxWidgets License
-##==========================================================
-##---------------------------------------------------------------------------
+##===========================================================================
 ## Author:      Mauro Calvi
 ##***************************************************************************
 ## *   Copyright (C) 2010 by Mauro Calvi                               *
@@ -23,7 +20,7 @@
 ## *   along with this program; if not, write to the                         *
 ## *   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,                                       *
 ## *   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          *
-## ##***************************************************************************			  
+## ##***************************************************************************		  
 
 # define minimum cmake version  (newer)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1.1)
@@ -78,7 +75,7 @@ SET(TARBALL_URL ${TARBALL_URL}/names/@name@/versions/@version@/@filename@)
 # SET YOUR STABLE_REPO, UNSTABLE_REPO and PKG_REPO in
 #     ci/appveyor.upload.sh
 #     ci/circleci.upload.sh
-#     ci/circleci.build.trusty.sh
+#     ci/circleci.upload-flatpak.sh
 #     ci/travis-build-raspbian-armhf.sh 
 #
 #Example: Plugins artifacts repository url
@@ -601,7 +598,30 @@ IF(UNIX AND NOT APPLE)
  SET(PREFIX_PLUGINS ${LIB_INSTALL_DIR}/${PARENT})
  SET(PREFIX_PARENTBIN bin)
  SET(PREFIX_PARENTDATA ${PREFIX_DATA}/${PARENT})
+
+#=================================================
+# Oesenc Chart Catalog stuff - Not Needed
+#=================================================
+
+# IF (ARCH MATCHES "amd64" OR ARCH MATCHES "x86_64") 
+#	INSTALL(FILES "buildlinux64/oeserverd/oeserverd"
+#   etc, etc.
+# necessary endif												  
 ENDIF(UNIX AND NOT APPLE)
+#===========================================
+#  Oesenc Chart permissions - Not needed 
+#============================================
+#IF(WIN32)
+#    INSTALL(FILES "buildwin/oeserverd/oeserverd.exe"
+#   etc, etc
+#IF(APPLE)
+# ....
+#ENDIF(APPLE)
+
+#==============================================
+# From Oesenc - Needed
+#==============================================
+											
 
 IF(NOT WIN32)
 SET(CPACK_SET_DESTDIR ON)
@@ -610,7 +630,7 @@ ENDIF(NOT WIN32)
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "dsr")
 
 #============================================
-# Do not change needed to build app
+# Do not change, needed to build app
 #=============================================
 INCLUDE("cmake/PluginSetup.cmake")
 
@@ -634,7 +654,7 @@ configure_file(
 )
 
 #============================================
-# Do not change needed to build app
+# Do not change, needed to build app
 #=============================================
 INCLUDE("cmake/PluginLocalization.cmake")
 INCLUDE("cmake/PluginInstall.cmake")
