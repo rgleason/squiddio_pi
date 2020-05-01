@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+
 #
 #
+
 # bailout on errors and echo commands.
 set -xe
 
@@ -17,6 +19,7 @@ DOCKER_CONTAINER_ID=$(docker ps | grep raspbian | awk '{print $1}')
 
 docker exec -ti $DOCKER_CONTAINER_ID apt-get update
 docker exec -ti $DOCKER_CONTAINER_ID apt-get -y install git cmake build-essential cmake gettext wx-common libgtk2.0-dev libwxgtk3.0-dev libbz2-dev libcurl4-openssl-dev libexpat1-dev libcairo2-dev libarchive-dev liblzma-dev libexif-dev lsb-release
+
 
 echo $OCPN_TARGET
 docker exec -ti $DOCKER_CONTAINER_ID /bin/bash -xec \
